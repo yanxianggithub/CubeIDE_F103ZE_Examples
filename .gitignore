@@ -1,9 +1,9 @@
 # dot files
 
 /.metadata
-/.settings
-/Debug
-/Drivers
+.settings/
+Debug/
+Drivers/
 
 *.cfg
 *.launch
