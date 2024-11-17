@@ -1,1 +1,1 @@
-# STM32F10x_HAL_Examples
+# CubeIDE_F103ZE_Examples
