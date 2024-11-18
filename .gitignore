@@ -3,7 +3,9 @@
 /.metadata
 .settings/
 Debug/
-Drivers/
+CMSIS/
+STM32F1xx_HAL_Driver/
+
 
 *.cfg
 *.launch
