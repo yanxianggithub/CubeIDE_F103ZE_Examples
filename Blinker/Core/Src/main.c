@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../BSP/LED/led.h"
+#include "../../SYSTEM/delay/delay.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -81,7 +82,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  delay_init(72);			/* 延时初始化 */
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -94,12 +95,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(1000);
-	  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(1000);
+	  LED0(0);          /* 打开LED0 */
+	  LED1(1);          /* 关闭LED1 */
+	  delay_ms(500);    /* 延时500ms */
+	  LED0(1);          /* 关闭LED0 */
+	  LED1(0);          /* 打开LED1 */
+	  delay_ms(500);    /* 延时500ms */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
