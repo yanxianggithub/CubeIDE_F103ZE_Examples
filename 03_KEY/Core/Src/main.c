@@ -1,20 +1,5 @@
 /* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -22,7 +7,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../BSP/LED/led.h"
+#include "../../BSP/BEEP/beep.h"
+#include "../../BSP/KEY/key.h"
+#include "../../SYSTEM/delay/delay.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,9 +51,8 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-
+  uint8_t key;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -81,7 +68,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  delay_init(72);						   /* 初始化延时函数 */
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -94,12 +81,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-	HAL_Delay(500);
+	  key = key_scan(0);                  /* 得到键值 */
+	  if (key)
+	  {
+		  switch (key)
+		  {
+			  case WKUP_PRES:             /* 控制蜂鸣器 */
+				  BEEP_TOGGLE();          /* BEEP状态取反 */
+				  break;
+
+			  case KEY1_PRES:             /* 控制LED1(GREEN)翻转 */
+				  LED1_TOGGLE();          /* LED1状态取反 */
+				  break;
+
+			  case KEY0_PRES:             /* 同时控制LED0, LED1翻转 */
+				  LED0_TOGGLE();          /* LED0状态取反 */
+				  LED1_TOGGLE();          /* LED1状态取反 */
+				  break;
+		  }
+	  }
+	  else
+	  {
+		  delay_ms(10);
+	  }
 
     /* USER CODE END WHILE */
 
