@@ -3,6 +3,7 @@
 /.metadata
 .settings/
 Debug/
+Output/
 CMSIS/
 STM32F1xx_HAL_Driver/
 
